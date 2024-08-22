@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signature</title>
+    <style>
+       .signature {
+            max-width: 50%;
+            background-color: #fff;
+            margin: 10px auto;
+            padding: 20px 0 0 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <form id="signatureForm" method="post" action="/save">
+        <div class="signature">
+            <canvas id="signatureCanvas" width="300" height="85"></canvas>
+            <input type="hidden" id="signature" name="signature">
+        </div>
+        <div class="form-group mb-3 text-center">
+            <button id="saveButton" type="submit" class="btn btn-primary btn-lg mt-4">I agree</button>
+            <button id="clearButton" type="button" class="btn btn-secondary btn-lg mt-4">Clear</button>
+        </div>
+    </form>
+
+    <script>
+        const canvas = document.getElementById('signatureCanvas');
+        const ctx = canvas.getContext('2d');
+        const scale = canvas.offsetWidth / canvas.width;
+        ctx.scale(scale, 1);
+        let isDrawing = false;
+
+        function getOffset(event) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: (event.touches ? event.touches[0].clientX : event.clientX) - rect.left,
+                y: (event.touches ? event.touches[0].clientY : event.clientY) - rect.top
+            };
+        }
+
+        function startDrawing(event) {
+            isDrawing = true;
+            ctx.beginPath();
+            const { x, y } = getOffset(event);
+            ctx.moveTo(x, y);
+        }
+
+        function draw(event) {
+            if (!isDrawing) return;
+            const { x, y } = getOffset(event);
+            ctx.lineTo(x, y);
+            ctx.stroke();
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+
+        canvas.addEventListener('touchstart', (event) => {
+            event.preventDefault();
+            startDrawing(event);
+        });
+        canvas.addEventListener('touchmove', (event) => {
+            event.preventDefault();
+            draw(event);
+        });
+        canvas.addEventListener('touchend', (event) => {
+            event.preventDefault();
+            stopDrawing();
+        });
+        canvas.addEventListener('touchcancel', (event) => {
+            event.preventDefault();
+            stopDrawing();
+        });
+
+        document.getElementById('saveButton').addEventListener('click', () => {
+            const dataURL = canvas.toDataURL('image/png');
+            document.getElementById('signature').value = `<img src="${dataURL}" alt="Assinatura do Cliente">`;
+            document.getElementById('signatureForm').submit();
+        });
+
+        document.getElementById('clearButton').addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            document.getElementById('signature').value = ''; // Limpar o campo oculto
+        });
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+</body>
+</html>
+
