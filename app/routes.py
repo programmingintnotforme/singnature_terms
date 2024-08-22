@@ -15,7 +15,7 @@ def create_pdf(email):
 
 @app.route('/', methods=['GET', 'POST'])
 def email_create():
-    signature_image = 'https://i.postimg.cc/pdrhbMJj/assinatura-1.png'
+    signature_image = 'https://i.postimg.cc/XYpLLmB2/signature.png'
 
     if request.method == 'POST':
         name = request.form['name']
