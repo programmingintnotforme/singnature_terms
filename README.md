@@ -1,4 +1,4 @@
-Um simples projeto em Flask de contrato de serviço com sistema de envio para o e-mail.
+Um simples projeto em Flask de contrato de serviço com sistema de envio para o e-mail com assinatura.
 
 É preciso criar seu arquivo .env.
 
