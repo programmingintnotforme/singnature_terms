@@ -1,16 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-4 d-flex justify-content-center">
-    <div class="card" style="width: 80%; max-width: 800px;">
+<div class="container mt-4">
+    <div class="card mx-auto" style="max-width: 800px;">
         <div class="card-body">
-            <h3 class="display-6 mb-4" style="text-align:center">Terms of Service</h3>
+            <h3 class="display-6 mb-4 text-center">Terms of Service</h3>
             <form method="post" class="form" enctype="multipart/form-data">
-                {{ csrf_token }}
-
-                 <div class="form-group mb-4">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <div class="form-group mb-4">
                     <label for="name" class="form-label">Name:</label>
-                    <input type="text" id="name" name="name" class="form-control">
+                    <input type="text" id="name" name="name" class="form-control" required>
                 </div>
 
                 <div class="form-group mb-4">
@@ -23,10 +22,10 @@
                     <input type="time" id="time" name="time" class="form-control" required>
                 </div>
 
-                <div class="form-group mb-4" style="text-align:center; font-family: 'Times New Roman', Times, serif; font-size: 1rem; line-height: 1.5;" >
-                    <label for="terms" class="form-label"></label>
-                    <textarea id="terms" name="terms" class="form-control" rows="15" required>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas egestas, velit et egestas finibus, massa dolor suscipit est, ac luctus ex erat convallis nisl. Donec odio nunc, venenatis quis mattis eu, elementum non mi. Vivamus ac mauris nec orci posuere facilisis. Quisque ipsum metus, bibendum at consequat ut, pharetra at mauris. Aenean hendrerit ex eget lorem ultrices, vel congue sem porta. Suspendisse eleifend interdum nisl, a gravida tortor scelerisque quis. Ut tincidunt consequat nibh, id consequat nisi ullamcorper et. Aliquam et euismod dui, at ultricies mauris. Proin quis augue eu libero elementum mollis in eget odio. Curabitur sit amet ipsum bibendum, molestie quam eu, ultricies nisi. Integer sollicitudin erat ante, ut commodo ipsum luctus eu. Nunc dapibus mi non cursus aliquam. Suspendisse tincidunt nulla sed dolor sollicitudin porta. Cras dolor dolor, molestie pulvinar elementum ac, efficitur id arcu. Mauris quis lobortis felis, a auctor arcu.
+                <div class="form-group mb-4">
+                    <label for="terms" class="form-label">Terms:</label>
+                    <textarea id="terms" name="terms" class="form-control" rows="10" required>
+                       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas egestas, velit et egestas finibus, massa dolor suscipit est, ac luctus ex erat convallis nisl. Donec odio nunc, venenatis quis mattis eu, elementum non mi. Vivamus ac mauris nec orci posuere facilisis. Quisque ipsum metus, bibendum at consequat ut, pharetra at mauris. Aenean hendrerit ex eget lorem ultrices, vel congue sem porta. Suspendisse eleifend interdum nisl, a gravida tortor scelerisque quis. Ut tincidunt consequat nibh, id consequat nisi ullamcorper et. Aliquam et euismod dui, at ultricies mauris. Proin quis augue eu libero elementum mollis in eget odio. Curabitur sit amet ipsum bibendum, molestie quam eu, ultricies nisi. Integer sollicitudin erat ante, ut commodo ipsum luctus eu. Nunc dapibus mi non cursus aliquam. Suspendisse tincidunt nulla sed dolor sollicitudin porta. Cras dolor dolor, molestie pulvinar elementum ac, efficitur id arcu. Mauris quis lobortis felis, a auctor arcu.
                         Integer ex augue, posuere et malesuada ac, ultricies feugiat erat. Vivamus lorem velit, dignissim eget vehicula sed, interdum at est. Sed at dictum sapien, vel mollis leo. Vivamus pharetra ac ligula vel efficitur. Aliquam nisi purus, sodales non urna ac, congue sodales nulla. Proin pretium tristique facilisis. Cras tempus, ligula sed mollis lacinia, sapien nulla pharetra ex, a mollis metus metus nec augue. Integer et tincidunt enim. Nulla odio nunc, posuere ullamcorper nunc ac, gravida tempor velit. Ut accumsan sed urna eget venenatis. Curabitur tortor mauris, elementum at iaculis ut, facilisis nec metus. Fusce semper, massa at tincidunt congue, elit est tempus nisi, sed tincidunt mauris tortor eu enim.
                         Cras at bibendum justo. Vestibulum aliquam mattis mollis. Nam ut urna id erat placerat fringilla varius ut ipsum. Curabitur vel elit et libero sollicitudin feugiat. Nam interdum neque elementum nisi suscipit, a feugiat velit sagittis. Morbi magna metus, maximus quis eleifend quis, dictum commodo orci. Maecenas sagittis turpis odio, eget rutrum turpis fermentum eu.
                         Sed sit amet feugiat dolor. Nam mi felis, dictum et est non, porttitor varius purus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Etiam velit elit, varius in iaculis ut, accumsan eu elit. Nulla facilisis, lorem vitae commodo tempus, nisi lacus imperdiet diam, eget laoreet ex magna non leo. Phasellus non eros ac sapien vulputate dignissim id non velit. Phasellus ac odio tincidunt, blandit nisi sit amet, aliquet eros. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nam ligula nisl, consequat vel tellus non, vulputate posuere felis. Vestibulum sollicitudin rutrum mi, quis aliquam purus tincidunt non. Morbi cursus urna vitae euismod interdum. Morbi eu nibh at dolor tincidunt consectetur. Sed eu nibh in orci tincidunt pharetra et sit amet eros. Vivamus bibendum sem in odio lobortis maximus.
@@ -48,6 +47,7 @@
                         Vivamus vestibulum diam id nulla venenatis molestie. Nullam semper, est et hendrerit posuere, odio purus pulvinar elit, sit amet luctus libero ex quis magna. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus sodales lacus quam, nec elementum augue iaculis in. Sed ut lectus ipsum. Cras justo dolor, imperdiet vel leo et, accumsan scelerisque justo. Donec imperdiet sapien a augue placerat, vitae congue magna convallis. Aenean tristique dictum metus, nec faucibus lacus ultricies at. In ullamcorper lobortis convallis. Duis non augue mi. Mauris sed dui a ante convallis commodo. Ut tincidunt aliquam libero, quis malesuada metus laoreet ac.
                     </textarea>
                 </div>
+
                 {% include 'signature.html' %}
             </form>
         </div>

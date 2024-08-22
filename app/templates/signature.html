@@ -5,35 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signature</title>
     <style>
-       .signature {
-            max-width: 50%;
-            background-color: #fff;
+        #canvasContainer {
+            width: 100%;
+            height: 250px;
+            position: relative;
+            overflow: hidden;
+            background-color:
             margin: 10px auto;
-            padding: 20px 0 0 0;
+            padding: 20px;
             box-sizing: border-box;
-            border: 1px solid #ccc;
         }
+
+        #signatureCanvas {
+            width: 100%;
+            height: 100%;
+            background-color: #f9f9f9;
+        }
+
     </style>
 </head>
 <body>
     <form id="signatureForm" method="post" action="/save">
-        <div class="signature">
-            <canvas id="signatureCanvas" width="300" height="85"></canvas>
+        <div id="canvasContainer">
+            <canvas id="signatureCanvas"></canvas>
             <input type="hidden" id="signature" name="signature">
         </div>
         <div class="form-group mb-3 text-center">
-            <button id="saveButton" type="submit" class="btn btn-primary btn-lg mt-4">I agree</button>
-            <button id="clearButton" type="button" class="btn btn-secondary btn-lg mt-4">Clear</button>
+            <button id="saveButton" type="submit" class="btn btn-primary">I agree</button>
+            <button id="clearButton" type="button" class="btn btn-secondary">Clear</button>
         </div>
     </form>
 
     <script>
         const canvas = document.getElementById('signatureCanvas');
         const ctx = canvas.getContext('2d');
-        const scale = canvas.offsetWidth / canvas.width;
-        ctx.scale(scale, 1);
         let isDrawing = false;
 
+        // Função para redimensionar o canvas
+        function resizeCanvas() {
+            const container = document.getElementById('canvasContainer');
+
+            // Ajusta o tamanho do canvas
+            canvas.width = container.clientWidth;
+            canvas.height = container.clientHeight;
+
+            // Limpa o canvas após o redimensionamento
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // Obtém a posição do mouse/touch
         function getOffset(event) {
             const rect = canvas.getBoundingClientRect();
             return {
@@ -60,11 +80,13 @@
             isDrawing = false;
         }
 
+        // Eventos de mouse
         canvas.addEventListener('mousedown', startDrawing);
         canvas.addEventListener('mousemove', draw);
         canvas.addEventListener('mouseup', stopDrawing);
         canvas.addEventListener('mouseout', stopDrawing);
 
+        // Eventos de toque
         canvas.addEventListener('touchstart', (event) => {
             event.preventDefault();
             startDrawing(event);
@@ -82,32 +104,22 @@
             stopDrawing();
         });
 
+        // Salvar a assinatura
         document.getElementById('saveButton').addEventListener('click', () => {
             const dataURL = canvas.toDataURL('image/png');
             document.getElementById('signature').value = `<img src="${dataURL}" alt="Assinatura do Cliente">`;
             document.getElementById('signatureForm').submit();
         });
 
+        // Limpar a assinatura
         document.getElementById('clearButton').addEventListener('click', () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             document.getElementById('signature').value = ''; // Limpar o campo oculto
         });
 
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
+        // Redimensionar o canvas ao carregar e quando a janela é redimensionada
+        window.onload = resizeCanvas;
+        window.onresize = resizeCanvas;
     </script>
 </body>
 </html>
-
